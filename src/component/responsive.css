@@ -1,0 +1,420 @@
+.navbar {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-top: 40px;
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+}
+
+
+.mint-body {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  min-height: calc(100vh - 290px);
+}
+
+.privacy-policy-section {
+  font-size: 1.5rem;
+  /* 24px */
+  line-height: 2rem;
+  /* 32px */
+  width: 100%;
+  text-align: left;
+  margin-top: 1rem;
+}
+
+.privacy-policy-text {
+  font-size: 1.25rem;
+  /* 20px */
+  line-height: 1.75rem;
+  /* 28px */
+  width: 100%;
+  text-align: left;
+  margin-top: 1rem;
+}
+
+.privacy-policy-subtext {
+  font-size: 1rem;
+  /* 16px */
+  line-height: 1.5rem;
+  /* 24px */
+  width: 100%;
+  text-align: left;
+  margin-top: 1rem;
+}
+
+
+
+.privacy-policy-body {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-left: 200px;
+  margin-right: 200px;
+  margin-top: 40px;
+  overflow-y: scroll;
+  max-height: calc(100vh - 290px);
+}
+
+.mint-body-image {
+  margin-right: 10%;
+  margin-left: 10%;
+  width: 80%;
+  height: 500px;
+  /* backdrop-filter: brightness(.1); */
+}
+
+.main-body {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  min-height: calc(100vh - 358px);
+}
+
+.main-body-background {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: brightness(.1);
+  background-color: black/100;
+}
+
+.play-button {
+  width: 64px;
+  height: 64px;
+}
+
+.mint-text {
+  margin-right: 64px;
+}
+
+.footer {
+  height: 148px;
+  bottom: 0px;
+  padding-left: 56px;
+  padding-right: 56px;
+  width: 100%;
+}
+
+.footer-body {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  color: #686868;
+}
+
+.footer-middle-link {
+  display: flex;
+  flex-basis: 50%;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  font-size: 1.125rem;
+  /* 18px */
+  line-height: 1.75rem;
+  /* 28px */
+}
+
+.text-div-right {
+  text-align: right;
+}
+
+.text-div-left {
+  text-align: left;
+}
+
+.width-66 {
+  width: 66%;
+}
+
+.width-33 {
+  width: 33%;
+}
+
+.width-33-2 {
+  width: 33%;
+}
+
+.width-16 {
+  width: 16%;
+}
+
+.width-40 {
+  width: 40%;
+}
+
+.width-30 {
+  width: 30%;
+}
+
+.width-50 {
+  width: 50%;
+}
+
+.padding-40 {
+  padding-top: 40px;
+  width: 100%;
+}
+
+.rewards-content-sm {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.rewards-content {
+  display: flex;
+  flex-wrap: nowrap;
+  height: calc(100vh - 290px);
+}
+
+.rewards-middle {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.rewards-right-content {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.rewards-board {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.tryme-response {
+  display: flex;
+  flex-wrap: nowrap;
+  height: 100%;
+}
+
+.tryme-video {
+  height: 100% !important;
+}
+
+.tryme-body {
+  height: calc(100vh - 250px);
+}
+
+.width-700 {
+  width: 700px;
+}
+
+.padding400 {
+  padding: 40px;
+}
+
+.min-w-450 {
+  min-width: 450px;
+}
+
+@media only screen and (max-width: 1500px) {
+  .rewards-right-content {
+    margin-left: 200px;
+    display: block;
+  }
+
+  .padding-40 {
+    padding-top: 8px;
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 1300px) {
+  .footer-body {
+    flex-wrap: wrap;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .navbar {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-top: 30px;
+    font-size: 1.275rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+  }
+
+  .rewards-content {
+    display: block;
+    height: calc(100vh - 290px);
+  }
+
+  .rewards-middle {
+    display: block;
+  }
+
+  .rewards-content {
+    display: block;
+    height: fit-content;
+  }
+
+}
+
+@media only screen and (max-width: 1000px) {
+  .footer-body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    color: #686868;
+  }
+
+  .rewards-content {
+    display: block;
+    height: fit-content;
+  }
+
+  .mint-body {
+    width: 100%;
+    margin-top: 24px;
+    display: inline-block;
+    margin-left: 0;
+    min-height: calc(100vh - 290px);
+  }
+
+  .footer-middle-link {
+    flex-basis: 100%;
+  }
+
+  .mint-text {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .mint-body-image {
+    width: 500px;
+    height: 500px;
+    /* backdrop-filter: brightness(.5); */
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .text-div-right {
+    text-align: center;
+  }
+
+  .text-div-left {
+    text-align: center;
+  }
+
+  .width-66 {
+    width: 50%;
+  }
+
+  .width-33 {
+    width: 50%;
+  }
+
+  .width-16 {
+    width: 100%;
+  }
+
+  .width-33-2 {
+    width: 100%;
+  }
+
+  .width-40 {
+    width: 100%;
+  }
+
+  .width-30 {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .tryme-response {
+    display: inline-block;
+  }
+  .rewards-content {
+    display: block;
+    height: fit-content;
+  }
+
+  .tryme-body {
+    display: block;
+    height: fit-content;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .rewards-board {
+    display: inline-block;
+  }
+
+  .width-700 {
+    width: 200%;
+  }
+
+  .min-w-450 {
+    min-width: 20px;
+  }
+
+  .rewards-right-content {
+    margin-left: 40px;
+    display: block;
+  }
+
+  .rewards-content {
+    display: block;
+    height: fit-content;
+  }
+
+  .tryme-body {
+    display: block;
+    height: fit-content;
+  }
+
+  /* .width-50 {
+        width: 80%;
+    } */
+}
+
+@media only screen and (max-width: 700px) {
+  .footer-middle-link {
+    display: none;
+  }
+  
+  .tryme-body {
+    display: block;
+    height: fit-content;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .navbar {
+    margin: 0px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    margin-top: 20px;
+    font-size: 1.275rem;
+    line-height: 1.5rem;
+    font-weight: 700;
+  }
+
+
+  .mint-body-image {
+    width: 80%;
+    height: 500px;
+    /* backdrop-filter: brightness(.5); */
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .rewards-content {
+    display: block;
+    height: fit-content;
+  }
+
+  .tryme-body {
+    display: block;
+    height: fit-content;
+  }
+}
