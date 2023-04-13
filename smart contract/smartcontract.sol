@@ -200,7 +200,7 @@ contract NFTWHITELISTED is ERC721Enumerable, Ownable {
             welcome_PR[ discoclub[msg.sender]].minted =  welcome_PR[ discoclub[msg.sender]].minted +1;
 
             //// ADDING REWARD TO THE INVITER
-            //// FOR PR
+            //// FOR not PR
             uint256 temp_money = welcome[inviter[msg.sender]].money;
             if(isPR(payable(inviter[msg.sender])) == false){
                   welcome[inviter[msg.sender]].money = temp_money + ref_rew;
@@ -213,9 +213,11 @@ contract NFTWHITELISTED is ERC721Enumerable, Ownable {
                    }
             }
 
-            //// FOR NOT PR
+            //// FOR PR
             if(isPR(payable(inviter[msg.sender])) == true){
-                  welcome_PR[inviter[msg.sender]].money = temp_money + ref_rew;
+                  uint256 _temp_money;
+                  _temp_money  = welcome_PR[inviter[msg.sender]].money ;
+                  welcome_PR[inviter[msg.sender]].money = _temp_money + ref_rew;
                   uint256 _p_ = welcome_PR[inviter[msg.sender]].find_add_pos[msg.sender];
                   welcome_PR[inviter[msg.sender]].network[_p_][msg.sender] = true;
                   // if the direct inviter is a PR -> add this to the number of minted here (otherwise when you use discoclub for not PR INVITER)
@@ -311,12 +313,12 @@ contract NFTWHITELISTED is ERC721Enumerable, Ownable {
   function retire_reward() public {
     if(isPR(payable(msg.sender)) == false){
           require(welcome[msg.sender].money > 0, "BRO you have nothing to retire");
-          (bool hs, ) = payable(address(this)).call{value: welcome[msg.sender].money}("whidraw your reward...");
+          (bool hs, ) = payable(msg.sender).call{value: welcome[msg.sender].money}("whidraw your reward...");
           require(hs);
           welcome[msg.sender].money = 0;
     } else if (isPR(payable (msg.sender))){
           require(welcome_PR[msg.sender].money > 0, "PR you have nothing to retire... GO TO WORK");
-          (bool hs, ) = payable(address(this)).call{value: welcome_PR[msg.sender].money}("whidraw your reward...");
+          (bool hs, ) = payable(msg.sender).call{value: welcome_PR[msg.sender].money}("whidraw your reward...");
           require(hs);
           welcome_PR[msg.sender].money = 0;
     }

@@ -4,7 +4,7 @@ import './responsive.css'
 import hourglass from "./hourglass.gif";
 import abi from "../web3/ABI.json"
 import { ethers } from "ethers";
-const smart_contract = "0xEc9776C6Ce7D9C93a6C5B5d1791C84d53D735b55";
+const smart_contract = "0x0E2f940165F9ECa65ec9182ECC3A6fE27399974b";
 
 let signer;
 let provider;

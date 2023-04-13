@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import abi from "../web3/ABI.json"
 import { ethers } from "ethers";
 
-const smart_contract = "0xEc9776C6Ce7D9C93a6C5B5d1791C84d53D735b55";
+const smart_contract = "0x0E2f940165F9ECa65ec9182ECC3A6fE27399974b";
 
 let signer;
 let provider;
@@ -90,6 +90,11 @@ function Rewards() {
       const[mycount, setmycount] = useState(false);
       const[exp_air, setexp_air] = useState(false);
       const[nftown, setnftown] = useState();
+      const[rewardlist, setrewardlist] = useState();
+      const[youPR, setyouPR] = useState();
+      const[clientboard, setlclientboard] = useState();
+      const[money1, setmoney1] = useState();
+      const[money2, setmoney2] = useState();
 
 
 
@@ -134,14 +139,30 @@ function Rewards() {
 
 
           const isPR = await welcomenft.isPR(client_address);
-          console.log(isPR);
+
           if (isPR == false) {
             const welcomeboard = await welcomenft.welcome(client_address);
-            const _money = (await welcomeboard.money) / 1000000000000000000;
+            setlclientboard(welcomeboard);
+            const _money = (await welcomeboard.money) / 1;
             console.log(_money);
             setmoney(_money);
+
+
+            if(welcomeboard .mintfriend1 == true){
+              setmoney1(0.01);
+            }else{
+              setmoney1(0.000);
+            }
+
+            if(welcomeboard .mintfriend2 == true){
+              setmoney2(0.001);
+            }else{
+              setmoney2(0.000);
+            }
+
           } else if (isPR == true) {
             const welcomeboard = await welcomenft.welcome_PR(client_address);
+            setlclientboard(welcomeboard);
             const _money = (await welcomeboard.money) / 1;
             console.log(_money);
             setmoney(_money);
@@ -166,8 +187,15 @@ function Rewards() {
           setdata(true);
 
 
+
+
+
+
+
           let _exp_airdrop = await welcomenft.PR_exp_air(walletAddress);
           setexp_air(_exp_airdrop/1000000000000000000);
+
+          supreward();
 
 
         };
@@ -177,6 +205,151 @@ function Rewards() {
         }
 
 
+        async function supreward(){
+          console.log("sup reward");
+          let reward_list = [];
+          let welcomeboard_ = await welcomenft.welcome_PR(client_address);
+          console.log("how much1");
+
+          let sing_reward = await welcomenft.ref_rew();
+
+
+          console.log("how much2");
+          console.log(sing_reward);
+
+          let __money = (await welcomeboard_.money)/1;
+
+
+          let num_reward = __money / sing_reward;
+          console.log("how much3");
+          console.log(__money);
+          console.log(num_reward);
+          for (let i = 0; i <= (num_reward - 1) ; i++) {
+            reward_list[i]= {sing_reward_ : sing_reward/ 1000000000000000000}
+
+          }
+          console.log(reward_list);
+          setrewardlist(reward_list);
+
+        }
+
+
+
+        function multiplereward(){
+
+
+          if (rewardlist && clientboard){
+            if(youPR == true){
+                return(
+
+                        <div>
+                            { rewardlist.map (data => (
+                               <p>{data.sing_reward_ } </p>
+                            ))
+
+                            }
+
+                        </div>
+
+                    )
+                  }else if (youPR == false){
+                    console.log("clientboard");
+                    console.log(clientboard.mintfriend1)
+
+
+                    return(
+                      <div >
+                            <div>
+                              FRIEND 1:   {clientboard.friend1}
+
+                            </div>
+
+                              <div>
+                                MINT FRIEND1:  {clientboard.mintfriend1.toString()}
+                              </div>
+
+                              <div>
+                                FRIEND 2:   {clientboard.friend2}
+
+                              </div>
+
+                                <div>
+                                  MINT FRIEND2:  {clientboard.mintfriend2.toString()}
+                                </div>
+
+                                <div>
+                                First reward: &nbsp;&nbsp; {money1} MATIC
+                                </div>
+
+                                <div>
+                                Second reward: &nbsp;&nbsp; {money2} MATIC
+                                </div>
+
+
+                    </div>
+                    )
+
+                  }
+            }
+
+          }
+
+
+
+            function seePrlist() {
+
+              if(pr_list){
+              return
+              (
+                      <div >
+
+                              { pr_list.map (data => (
+                                                         <p>{data.pr_name_ } </p>
+                                                      ))
+
+                              }
+                      </div>
+
+                  )
+              }
+
+            }
+
+
+
+
+
+
+
+        // async function prdata2() {
+        //       console.log("pr data");
+        //       let pr_ = await welcomenft.PR(0);
+        //       setpr_(pr_);
+        //       console.log(pr_);
+        //
+        //
+        //
+        //
+        //       let n_PR = await welcomenft.n_PR();
+        //       console.log(n_PR);
+        //
+        //       for (let i = 0; i <= n_PR -1 ; i++) {
+        //
+        //         let sing_pr = await welcomenft.PR(i);
+        //         let sing_count = await welcomenft.countPR(sing_pr);
+        //         pr_list[i] = {pr_name_ : sing_pr}
+        //         let countPR1_ = {count_pr : (sing_count / 1 ) };
+        //         countlist[i] = countPR1_;
+        //       }
+        //       setprlist(pr_list);
+        //       console.log(pr_list);
+        //       console.log(countlist);
+        //       setcountPR(countlist);
+        //
+        //       funmyscore()
+        //
+        //
+        //     }
 
 
         async function prdata() {
@@ -186,6 +359,16 @@ function Rewards() {
               console.log(pr_);
 
 
+
+              const isPR_ = await welcomenft.isPR(client_address);
+
+              console.log("are you a Pr?");
+              console.log(isPR_);
+              setyouPR(isPR_);
+
+              console.log("are you REALLY a Pr?");
+              //setyouPR(isPR_);
+              console.log(youPR);
 
 
               let n_PR = await welcomenft.n_PR();
@@ -201,11 +384,12 @@ function Rewards() {
               console.log(countlist);
               setcountPR(countlist);
 
-              funmyscore()
+              funmyscore();
+
+
+
 
             }
-
-
 
 
 
@@ -222,7 +406,7 @@ function Rewards() {
       }
 
     const retire_reward = async() =>{
-      console.log("retire bitch");
+
         await welcomenft.retire_reward();
 
 
@@ -247,101 +431,103 @@ function Rewards() {
 
 
 
-                      <div className='w-full h-5/6 outline outline-2 outline-black mt-2 flex flex-nowrap overflow-auto' style={{ height: 'calc(100%-40px)' }}>
-                      {countPR &&
-                        <div className='w-full pl-[20px] h-full'>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[0]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[0]}</div>
-                          </div>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[1]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[1]}</div>
-                          </div>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[2]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[2]}</div>
-                          </div>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[3]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[3]}</div>
-                          </div>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[4]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[4]}</div>
-                          </div>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[4]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[4]}</div>
-                          </div>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[5]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[5]}</div>
-                          </div>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[6]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[6]}</div>
-                          </div>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[7]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[7]}</div>
-                          </div>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[8]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[8]}</div>
-                          </div>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[8]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[8]}</div>
-                          </div>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[8]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[8]}</div>
-                          </div>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[9]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[9]}</div>
-                          </div>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[10]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[10]}</div>
-                          </div>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[11]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[11]}</div>
-                          </div>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[12]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[12]}</div>
-                          </div>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[13]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[13]}</div>
-                          </div>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[14]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[14]}</div>
-                          </div>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[15]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[15]}</div>
-                          </div>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[16]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[16]}</div>
-                          </div>
-                          <div className='w-full flex flex-row justify-between'>
-                            <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[16]}</div>
-                            <div className='text-[28px] font-bold text-white mr-3'>{countPR[16]}</div>
-                          </div>
-                        </div>
 
-                      }
+                        <div className='w-full h-5/6 outline outline-2 outline-black mt-2 flex flex-nowrap overflow-auto' style={{ height: 'calc(100%-40px)' }}>
+                        {countPR &&
+                          <div className='w-full pl-[20px] h-full'>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[0]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[0]}</div>
+                            </div>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[1]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[1]}</div>
+                            </div>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[2]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[2]}</div>
+                            </div>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[3]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[3]}</div>
+                            </div>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[4]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[4]}</div>
+                            </div>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[4]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[4]}</div>
+                            </div>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[5]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[5]}</div>
+                            </div>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[6]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[6]}</div>
+                            </div>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[7]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[7]}</div>
+                            </div>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[8]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[8]}</div>
+                            </div>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[8]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[8]}</div>
+                            </div>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[8]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[8]}</div>
+                            </div>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[9]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[9]}</div>
+                            </div>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[10]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[10]}</div>
+                            </div>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[11]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[11]}</div>
+                            </div>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[12]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[12]}</div>
+                            </div>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[13]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[13]}</div>
+                            </div>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[14]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[14]}</div>
+                            </div>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[15]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[15]}</div>
+                            </div>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[16]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[16]}</div>
+                            </div>
+                            <div className='w-full flex flex-row justify-between'>
+                              <div className='text-[28px] truncate font-bold text-white mr-6'>{prlist[16]}</div>
+                              <div className='text-[28px] font-bold text-white mr-3'>{countPR[16]}</div>
+                            </div>
+                          </div>
 
+                        }
 
-                      </div>
+                         </div>
                     </div>
                   </div>
+
+
                   <div className='lg:w-1/3 sm:w-full md:w-1/3 rewards-middle justify-center'>
                     <div className='w-100 items-end flex flex-col justify-between'>
                       <div className='w-1/2 padding-40'>
@@ -351,7 +537,8 @@ function Rewards() {
                             <div className='text-xl font-bold mb-4'>SCORE - {myscore/1}</div>
                           }
                           <div>
-                            <button className='text-xl font-bold outline outline-2 outline-black w-[120px] h-[32px]'>{money} wei</button>
+                            <button className='text-xl font-bold outline outline-2 outline-black w-[120px] h-[32px]'>{(money / 1000000000000000000).toFixed(8)}</button>
+                             &nbsp;&nbsp; MATIC
                           </div >
 
                           <div className='w-1/2 padding-40'>
@@ -368,14 +555,36 @@ function Rewards() {
                   <div className='lg:w-1/3 sm:w-full md:w-1/3 justify-center items-baseline flex'>
                     <div className='w-1/2'>
                       <div className='padding-40'>
-                        <div className='text-xl font-bold'>Expected airdrop rewards</div>
-                        <div className='text-xl font-bold text-white'>REWARDS EARNED</div>
+                        <div className='text-xl font-bold text-white'>
+
+                        <div> Expected airdrop rewards: &nbsp;&nbsp; </div>
 
                         {exp_air &&
-                            <div className='text-2xl font-bold text-white mt-8'>{exp_air } MATIC</div>
+                            <div className='text-xl font-bold text-white'>{exp_air.toFixed(8) }  </div>
                         }
+                        &nbsp;&nbsp; MATIC
+                        </div>
+
+
+
+                          <div >
+                                    <div className= 'text-xl font-bold'>REWARDS EARNED</div>
+
+
+                                    <div className='h-[200px] overflow-auto' style={{ width: '200%' }}>
+                                            {multiplereward()}
+
+                                     </div>
+
+                                     <div>
+                                       <button className= 'text-xl font-bold'>{(money / 1000000000000000000).toFixed(8)} MATIC</button>
+                                     </div >
+                          </div>
+
+
 
                       </div>
+
                     </div>
                   </div>
                 </div>
